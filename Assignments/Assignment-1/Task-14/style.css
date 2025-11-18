@@ -1,0 +1,56 @@
+  body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Fixed header for comparison */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: white;
+      padding: 15px 20px;
+      z-index: 1000;
+    }
+
+    .container {
+      display: flex;
+      margin-top: 60px; /* space for fixed header */
+    }
+
+    /* Sticky sidebar */
+    .sidebar {
+      width: 200px;
+      height: 100vh;
+      position: sticky;
+      top: 60px; /* sticks below the fixed header */
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    /* Main content scrolls normally */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      height: 2000px; /* for scroll demonstration */
+      background-color: #fff;
+    }
+
+    .main-content h2 {
+      margin-top: 0;
+    }
+
+    /* Visual cue for fixed vs sticky */
+    .note {
+      background: #e0f7fa;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid #00796b;
+    }

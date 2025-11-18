@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Styling Methods Demo</title>
+
+  <!-- External CSS file -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Internal CSS: Used for styling the main section -->
+  <style>
+    /* Internal CSS: Styling the main content section */
+    main {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px dashed #ccc;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 8px;
+    }
+
+    main h2 {
+      color: #007BFF;
+    }
+
+    main p {
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to My CSS Demo Page</h1>
+  </header>
+
+  <main>
+    <h2>Internal CSS Section</h2>
+    <p>This section is styled using <strong>internal CSS</strong> defined in the &lt;style&gt; tag inside the &lt;head&gt;.</p>
+  </main>
+
+  <!-- Inline CSS: Styling a single button element directly -->
+  <button style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+    Inline Styled Button
+  </button>
+  <!-- Inline CSS: Used directly on the button element above -->
+
+  <footer>
+    <p>External CSS styles this footer.</p>
+  </footer>
+
+</body>
+</html>

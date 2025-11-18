@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Exclude radio and checkbox from full-width rule */
+    input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]),
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .gender-group {
+      margin: 10px 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Ensure radio inputs keep natural size */
+    .gender-group input[type="radio"] {
+      width: auto;
+      margin: 0 6px 0 0;
+    }
+
+    .gender-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .gender-group label:hover {
+      background: #f0f0f0;
+    }
+
+    .terms {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .terms input {
+      width: auto;
+      margin-right: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <form>
+    <h2>Registration Form</h2>
+
+    <input type="text" name="username" placeholder="Enter Username" required>
+    <input type="email" name="email" placeholder="Enter Email" required>
+    <input type="password" name="password" placeholder="Enter Password" required>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+    <input type="date" name="dob" required>
+
+    <div class="gender-group" role="radiogroup" aria-label="Gender">
+      <input id="gender_male" type="radio" name="gender" value="male" required>
+      <label for="gender_male">Male</label>
+
+      <input id="gender_female" type="radio" name="gender" value="female">
+      <label for="gender_female">Female</label>
+
+      <input id="gender_other" type="radio" name="gender" value="other">
+      <label for="gender_other">Other</label>
+    </div>
+
+    <select name="country" required>
+      <option value="">Select Country</option>
+      <option value="India">India</option>
+      <option value="USA">USA</option>
+      <option value="UK">UK</option>
+      <option value="Canada">Canada</option>
+      <option value="Australia">Australia</option>
+    </select>
+
+    <div class="terms">
+      <input type="checkbox" name="terms" required>
+      <label for="terms">I agree to the Terms & Conditions</label>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+
+</body>
+</html>

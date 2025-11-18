@@ -1,0 +1,23 @@
+  .container{
+            width: 500px;
+            margin: 25px auto;
+            padding: 25px;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            
+        }
+        .container > h1{
+            margin: 25px 0px;
+        }
+        .container > label{
+            margin: 15px 0px;
+        }
+        .container > input, .container > select, .container > textarea{
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }

@@ -1,0 +1,52 @@
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr; /* Sidebar, Main, Widget */
+      grid-template-rows: auto 1fr auto;  /* Header, Content, Footer */
+      grid-template-areas:
+        "header header header"
+        "sidebar main widget"
+        "footer footer footer";
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    aside.sidebar {
+      grid-area: sidebar;
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-right: 1px solid #ccc;
+    }
+
+    main {
+      grid-area: main;
+      background-color: #fff;
+      padding: 20px;
+    }
+
+    aside.widget {
+      grid-area: widget;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-left: 1px solid #ccc;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }

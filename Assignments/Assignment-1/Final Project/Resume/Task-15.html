@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Resume — Elango M</title>
+    <style>
+        :root {
+            --accent: #0b6fbf;
+            --muted: #6b7280;
+            --card: #fff
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+            line-height: 1.45;
+            color: #111;
+            background: #f3f5f7;
+            padding: 24px
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--card);
+            border-radius: 10px;
+            padding: 28px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, .06)
+        }
+
+        header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e6e9ee;
+            padding-bottom: 16px;
+            margin-bottom: 18px
+        }
+
+        .name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent)
+        }
+
+        .role {
+            color: var(--muted);
+            font-weight: 600
+        }
+
+        .contact {
+            font-size: .95rem;
+            color: var(--muted);
+            text-align: right
+        }
+
+        .contact a {
+            color: var(--accent);
+            text-decoration: none
+
+        }
+
+        .section {
+            margin-bottom: 18px
+        }
+
+        .section h2 {
+            font-size: 1.05rem;
+            color: #0f1724;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px
+        }
+
+        .card {
+            background: #fbfdff;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #eef3fb
+        }
+
+        ul {
+            margin-left: 18px
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .skill {
+            background: #eef6ff;
+            color: #084e8a;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: .9rem
+        }
+
+        .edu-item,
+        .exp-item {
+            margin-bottom: 12px
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: .95rem
+        }
+
+        footer {
+            border-top: 1px solid #eef3fb;
+            padding-top: 12px;
+            color: var(--muted);
+            font-size: .9rem;
+            text-align: center;
+            margin-top: 18px
+        }
+
+        @media(max-width:840px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .contact {
+                text-align: left
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container" role="main" aria-labelledby="resume-heading">
+        <header>
+            <div>
+                <div class="name">Elango M</div>
+                <div class="role">Full Stack Developer</div>
+            </div>
+            <div class="contact" aria-label="Contact details">
+                <div><strong>Email:</strong> <a href="mailto:elango.mofficial@gmail.com">elango.mofficial@gmail.com</a></div>
+                <div class="muted"><strong>Phone:</strong> +91 87786 52323</div>
+                <div class="muted"><strong>Location:</strong> Chennai, India</div>
+                <div class="muted"> <a href="https://github.com/elangouzumaki/elango_99555915717130D9E89456B315A1A20F" target="_blank"
+                        rel="noopener">GitHub></a></div>
+            </div>
+        </header>
+
+        <section class="section two-col">
+            <div>
+                <div class="card">
+                    <h2 id="resume-heading">Professional Summary</h2>
+                    <p class="muted">Results-driven full stack developer with 4+ years building responsive web
+                        applications using HTML, CSS, JavaScript, React, and Node.js. Strong problem-solving skills,
+                        team collaboration experience, and a focus on clean, maintainable code.</p>
+                </div>
+
+                <div class="card" style="margin-top:14px">
+                    <h2>Experience</h2>
+                    <div class="exp-item">
+                        <div style="font-weight:700">Frontend Developer — Acme Web (2022 — Present)</div>
+                        <div class="muted">Built and maintained React applications, improved performance, and
+                            implemented accessible UI components. Led a small team for a client dashboard project.</div>
+                        <ul>
+                            <li>Implemented component library and design tokens for consistency.</li>
+                            <li>Optimized bundle size and reduced initial load time by 30%.</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-item">
+                        <div style="font-weight:700">Full Stack Intern — TechLabs (2021 — 2022)</div>
+                        <div class="muted">Worked on REST APIs with Node.js and MongoDB; created frontend pages with
+                            responsive layouts and unit tests.</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:14px">
+                    <h2>Education</h2>
+                    <div class="edu-item">
+                        <div style="font-weight:700">B.Sc. in Computer Science — University Name (2018 — 2021)</div>
+                        <div class="muted">Relevant coursework: Data Structures, Web Development, Databases</div>
+                    </div>
+                </div>
+            </div>
+
+            <aside>
+                <div class="card">
+                    <h2>Skills</h2>
+                    <div class="skills" aria-label="Skills list">
+                        <span class="skill">HTML</span>
+                        <span class="skill">CSS</span>
+                        <span class="skill">JavaScript</span>
+                        <span class="skill">React</span>
+                        <span class="skill">Node.js</span>
+                        <span class="skill">Express</span>
+                        <span class="skill">MongoDB</span>
+                        <span class="skill">Git</span>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:14px">
+                    <h2>Contact</h2>
+                    <p class="muted"><strong>Email:</strong> elango.mofficial@gmail.com</p>
+                    <p class="muted"><strong>Phone:</strong> +91 87786 52323</p>
+                    <p class="muted"><a href="https://www.linkedin.com/in/elangomargabandhu/"
+                            style="color:var(--accent)">LinkedIn</a></p>
+                </div>
+
+                <div class="card" style="margin-top:14px">
+                    <h2>Languages</h2>
+                    <ul>
+                        <li>English — Professional</li>
+                        <li>Tamil — Native</li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+
+        <footer>Portfolio: <a href="#" style="color:var(--accent)">your-portfolio.example</a> · Updated 2025</footer>
+    </main>
+</body>
+
+</html>
+```// filepath:
