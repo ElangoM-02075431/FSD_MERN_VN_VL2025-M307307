@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cse",
+    "name": "Computer Science Engineering",
+    "description": "Focuses on programming, algorithms, data structures, and emerging technologies.",
+    "fullDescription": "The CSE department provides strong fundamentals in data structures, algorithms, operating systems, networks, and full-stack development. Students gain exposure to various modern technologies such as AI, ML, and Cloud.",
+    "courses": [
+      "Data Structures",
+      "Operating Systems",
+      "DBMS",
+      "Computer Networks",
+      "Web Development"
+    ],
+    "faculty": ["Dr. Kumar", "Dr. Meena", "Prof. Arjun"],
+    "labs": ["Programming Lab", "Networks Lab", "AI Lab"]
+  },
+  {
+    "id": "it",
+    "name": "Information Technology",
+    "description": "Dedicated to information systems, networking, and modern IT solutions.",
+    "fullDescription": "The IT department focuses on software engineering, database systems, cybersecurity, and data analytics.",
+    "courses": ["Java", "Software Engineering", "Cybersecurity", "Data Analytics"],
+    "faculty": ["Dr. Priya", "Dr. Naveen"],
+    "labs": ["Software Lab", "Security Lab"]
+  },
+  {
+    "id": "ece",
+    "name": "Electronics & Communication Engineering",
+    "description": "Deals with electronic devices, circuits, and communication systems.",
+    "fullDescription": "ECE students gain in-depth knowledge in embedded systems, communication engineering, digital electronics, and VLSI.",
+    "courses": ["Digital Electronics", "Signals & Systems", "VLSI Design"],
+    "faculty": ["Dr. Raghavan", "Prof. Nisha"],
+    "labs": ["Circuits Lab", "VLSI Lab"]
+  },
+  {
+    "id": "mech",
+    "name": "Mechanical Engineering",
+    "description": "Covers machines, thermal engineering, and manufacturing processes.",
+    "fullDescription": "The Mechanical Department focuses on thermodynamics, fluid mechanics, and machine design along with hands-on workshops.",
+    "courses": ["Thermodynamics", "Fluid Mechanics", "Machine Design"],
+    "faculty": ["Dr. Varun", "Prof. Lakshmi"],
+    "labs": ["CAD Lab", "Thermal Lab"]
+  },
+  {
+    "id": "civil",
+    "name": "Civil Engineering",
+    "description": "Focused on construction, structural engineering, and surveying.",
+    "fullDescription": "Civil Engineering provides expertise in building materials, structural design, geotechnical engineering, and environmental studies.",
+    "courses": ["Structural Engineering", "Surveying", "Geotechnical Engineering"],
+    "faculty": ["Dr. Karthik", "Prof. Sneha"],
+    "labs": ["Survey Lab", "Concrete Lab"]
+  },
+  {
+    "id": "mba",
+    "name": "Master of Business Administration",
+    "description": "Focused on leadership, management, finance, and marketing.",
+    "fullDescription": "MBA department helps students build managerial, leadership, and analytical skills with specialization options.",
+    "courses": ["Marketing", "Finance", "HR Management"],
+    "faculty": ["Dr. Anita", "Prof. Raj"],
+    "labs": ["Business Analytics Lab"]
+  }
+]
