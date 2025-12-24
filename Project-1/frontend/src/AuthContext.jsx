@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (name, email, password) => {
-    await axios.post('https://bookstore-blrf.onrender.com//api/auth/register', { name, email, password });
+    await axios.post('https://bookstore-blrf.onrender.com/api/auth/register', { name, email, password });
     await login(email, password);
   };
 
@@ -38,4 +38,5 @@ export function useAuth() {
   return useContext(AuthContext);
 
 }
+
 
