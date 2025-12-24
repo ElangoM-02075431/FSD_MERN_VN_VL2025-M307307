@@ -8,7 +8,7 @@ function BookDetail() {
   const [book, setBook] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://bookstore-blrf.onrender.com//api/books/${id}`)
+    axios.get(`https://bookstore-blrf.onrender.com/api/books/${id}`)
       .then(res => setBook(res.data))
       .catch(err => console.log(err));
   }, [id]);
@@ -60,3 +60,4 @@ function BookDetail() {
 
 
 export default BookDetail;
+
