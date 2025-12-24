@@ -17,7 +17,7 @@ function BookDetail() {
 
   useEffect(() => {
     const id = window.location.pathname.split('/').pop();
-    axios.get(`http://localhost:5000/api/books/${id}`)
+    axios.get(`https://bookstore-blrf.onrender.com//api/books/${id}`)
       .then(res => {
         setBook(res.data);
         setLoading(false);
@@ -69,7 +69,7 @@ function Home() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/books')
+    axios.get('https://bookstore-blrf.onrender.com//api/books')
       .then(res => setBooks(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -201,5 +201,6 @@ function App() {
     </>
   );
 }
+
 
 export default App;
