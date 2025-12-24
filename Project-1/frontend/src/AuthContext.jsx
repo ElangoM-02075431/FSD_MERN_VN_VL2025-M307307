@@ -12,13 +12,13 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const res = await axios.post('https://bookstore-blrf.onrender.com//api/auth/login', { email, password });
     localStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
   };
 
   const register = async (name, email, password) => {
-    await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+    await axios.post('https://bookstore-blrf.onrender.com//api/auth/register', { name, email, password });
     await login(email, password);
   };
 
@@ -36,4 +36,5 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   return useContext(AuthContext);
+
 }
