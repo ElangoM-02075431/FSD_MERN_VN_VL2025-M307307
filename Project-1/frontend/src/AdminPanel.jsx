@@ -17,16 +17,16 @@ function AdminPanel() {
   }, []);
 
   const fetchBooks = () => {
-    axios.get('http://localhost:5000/api/books')
+    axios.get('https://bookstore-blrf.onrender.com//api/books')
       .then(res => setBooks(res.data));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingBook) {
-      await axios.put(`http://localhost:5000/api/books/${editingBook._id}`, formData);
+      await axios.put(`https://bookstore-blrf.onrender.com//api/books/${editingBook._id}`, formData);
     } else {
-      await axios.post('http://localhost:5000/api/books', formData);
+      await axios.post('https://bookstore-blrf.onrender.com//api/books', formData);
     }
     setShowModal(false);
     setEditingBook(null);
@@ -49,7 +49,7 @@ function AdminPanel() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Delete this book?')) {
-      await axios.delete(`http://localhost:5000/api/books/${id}`);
+      await axios.delete(`https://bookstore-blrf.onrender.com//api/books/${id}`);
       fetchBooks();
     }
   };
@@ -151,5 +151,6 @@ function AdminPanel() {
     </Container>
   );
 }
+
 
 export default AdminPanel;
