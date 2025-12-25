@@ -69,7 +69,7 @@ function Home() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/books')
+    axios.get('https://bookstore-blrf.onrender.com/api/books')
       .then(res => setBooks(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -203,5 +203,6 @@ function App() {
 }
 
 export default App;
+
 
 
