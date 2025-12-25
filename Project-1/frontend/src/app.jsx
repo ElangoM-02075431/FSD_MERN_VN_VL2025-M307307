@@ -17,7 +17,7 @@ function BookDetail() {
 
   useEffect(() => {
     const id = window.location.pathname.split('/').pop();
-    axios.get(`http://localhost:5000/api/books/${id}`)
+    axios.get(`https://elango-library.vercel.app/api/books/${id}`)
       .then(res => {
         setBook(res.data);
         setLoading(false);
@@ -203,3 +203,4 @@ function App() {
 }
 
 export default App;
+
