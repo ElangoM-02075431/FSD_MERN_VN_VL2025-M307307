@@ -9,6 +9,17 @@ import Wishlist from './Wishlist.jsx';
 import BookDetail from './BookDetail.jsx';
 import AdminPanel from './AdminPanel.jsx';
 import AuthModal from './AuthModal.jsx';
+// Form.jsx
+export default function Form() { ... }
+
+// App.jsx
+import Form from "./Form";
+
+function App() {
+  return <Form />;
+}
+
+
 
 function Home() {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
