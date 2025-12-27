@@ -36,7 +36,6 @@ function Home({ searchQuery }) {
 
   return (
     <>
-      {/* Hero */}
       <div className="bg-dark text-white py-5 text-center">
         <Container>
           <h1 className="display-4 fw-bold">Indian Bookstore</h1>
@@ -45,7 +44,6 @@ function Home({ searchQuery }) {
       </div>
 
       <Container className="my-5">
-        {/* Search Results Title with Count */}
         <h2 className="text-center mb-5 fw-bold">
           {searchQuery 
             ? `Results for "${searchQuery}" (${books.length} books found)`
@@ -112,7 +110,7 @@ function App() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchQuery(searchInput.trim()); // Only trigger search when button clicked
+    setSearchQuery(searchInput.trim());
   };
 
   return (
@@ -155,10 +153,16 @@ function App() {
               )}
             </Link>
 
+            {/* Admin Panel Button - Only for admin */}
+            {user && user.isAdmin && (
+              <Link to="/admin" className="btn btn-warning text-dark fw-bold">
+                Admin Panel
+              </Link>
+            )}
+
             {user ? (
               <div className="d-flex align-items-center gap-3 text-white">
                 <span>Hello, {user.name || user.email}!</span>
-                {user.isAdmin && <Badge bg="warning" text="dark">Admin</Badge>}
                 <Button variant="outline-light" size="sm" onClick={logout}>Logout</Button>
               </div>
             ) : (
@@ -175,7 +179,7 @@ function App() {
         <Route path="/book/:id" element={<BookDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        {user && user.isAdmin && <Route path="/admin" element={<AdminPanel />} />}
+        <Route path="/admin" element={<AdminPanel />} />  {/* Always available */}
       </Routes>
 
       <AuthModal show={showAuth} onHide={() => setShowAuth(false)} />
