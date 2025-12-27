@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Modal, Form, Table } from 'react-bootstrap';
-import { useAuth } from './AuthContext.jsx';
+import { Container, Row, Col, Card, Button, Modal, Form, Table, FormControl } from 'react-bootstrap';
 
 function AdminPanel() {
-  const { user } = useAuth();
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [formData, setFormData] = useState({
@@ -16,22 +16,45 @@ function AdminPanel() {
     fetchBooks();
   }, []);
 
-  const fetchBooks = () => {
-    axios.get('https://bookstore-blrf.onrender.com/api/books')
-      .then(res => setBooks(res.data));
+  const fetchBooks = async () => {
+    try {
+      const res = await axios.get('https://bookstore-blrf.onrender.com/api/books');
+      setBooks(res.data);
+      setFilteredBooks(res.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  // Live search in admin panel
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredBooks(books);
+    } else {
+      const lowerSearch = searchTerm.toLowerCase();
+      const filtered = books.filter(book =>
+        book.title.toLowerCase().includes(lowerSearch) ||
+        book.author.toLowerCase().includes(lowerSearch) ||
+        book.genre.toLowerCase().includes(lowerSearch)
+      );
+      setFilteredBooks(filtered);
+    }
+  }, [searchTerm, books]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingBook) {
-      await axios.put(`https://bookstore-blrf.onrender.com/api/books/${editingBook._id}`, formData);
-    } else {
-      await axios.post('https://bookstore-blrf.onrender.com/api/books', formData);
+    try {
+      if (editingBook) {
+        await axios.put(`https://bookstore-blrf.onrender.com/api/books/${editingBook._id}`, formData);
+      } else {
+        await axios.post('https://bookstore-blrf.onrender.com/api/books', formData);
+      }
+      handleClose();
+      fetchBooks();
+    } catch (err) {
+      console.error(err);
+      alert('Error saving book');
     }
-    setShowModal(false);
-    setEditingBook(null);
-    setFormData({ title: '', author: '', genre: '', price: '', description: '', image: '' });
-    fetchBooks();
   };
 
   const handleEdit = (book) => {
@@ -48,9 +71,13 @@ function AdminPanel() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this book?')) {
-      await axios.delete(`https://bookstore-blrf.onrender.com/api/books/${id}`);
-      fetchBooks();
+    if (window.confirm('Delete this book permanently?')) {
+      try {
+        await axios.delete(`https://bookstore-blrf.onrender.com/api/books/${id}`);
+        fetchBooks();
+      } catch (err) {
+        alert('Error deleting book');
+      }
     }
   };
 
@@ -63,12 +90,25 @@ function AdminPanel() {
   return (
     <Container className="my-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Admin Panel - Manage Books</h1>
-        <Button variant="success" onClick={() => setShowModal(true)}>Add New Book</Button>
+        <h1>Admin Panel - Manage Books ({filteredBooks.length})</h1>
+        <Button variant="success" onClick={() => setShowModal(true)}>
+          Add New Book
+        </Button>
       </div>
 
+      {/* Search Bar in Admin Panel */}
+      <Form className="mb-4">
+        <FormControl
+          type="search"
+          placeholder="Search by title, author, or genre..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-500"
+        />
+      </Form>
+
       <Table striped bordered hover responsive>
-        <thead>
+        <thead className="table-dark">
           <tr>
             <th>Image</th>
             <th>Title</th>
@@ -79,23 +119,37 @@ function AdminPanel() {
           </tr>
         </thead>
         <tbody>
-          {books.map(book => (
-            <tr key={book._id}>
-              <td><img src={book.image} alt="" style={{ width: '60px', objectFit: 'contain' }} /></td>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.genre}</td>
-              <td>₹{book.price}</td>
-              <td>
-                <Button variant="warning" size="sm" className="me-2" onClick={() => handleEdit(book)}>
-                  Edit
-                </Button>
-                <Button variant="danger" size="sm" onClick={() => handleDelete(book._id)}>
-                  Delete
-                </Button>
+          {filteredBooks.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="text-center py-4">
+                No books found
               </td>
             </tr>
-          ))}
+          ) : (
+            filteredBooks.map(book => (
+              <tr key={book._id}>
+                <td>
+                  <img 
+                    src={book.image} 
+                    alt={book.title} 
+                    style={{ width: '70px', height: '100px', objectFit: 'contain' }} 
+                  />
+                </td>
+                <td>{book.title}</td>
+                <td>{book.author}</td>
+                <td>{book.genre}</td>
+                <td>₹{book.price}</td>
+                <td>
+                  <Button variant="warning" size="sm" className="me-2" onClick={() => handleEdit(book)}>
+                    Edit
+                  </Button>
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(book._id)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
 
@@ -152,6 +206,4 @@ function AdminPanel() {
   );
 }
 
-
 export default AdminPanel;
-
