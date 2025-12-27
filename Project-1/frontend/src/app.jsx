@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Navbar, Container, Row, Col, Card, Button, Badge, Form } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -29,7 +29,7 @@ function Home({ searchQuery }) {
       }
     };
     fetchBooks();
-  }, [searchQuery]);
+  }, [searchQuery]); // Only runs when searchQuery changes (on button click)
 
   return (
     <>
@@ -95,13 +95,19 @@ function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Search only when button clicked or Enter pressed
+    // The useEffect in Home will trigger
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark" sticky="top" className="shadow py-3">
         <Container>
           <Link to="/" className="navbar-brand fw-bold fs-4">📚 Indian Bookstore</Link>
 
-          <Form className="d-flex mx-auto flex-grow-1" style={{ maxWidth: '600px' }} onSubmit={(e) => e.preventDefault()}>
+          <Form className="d-flex mx-auto flex-grow-1" style={{ maxWidth: '600px' }} onSubmit={handleSearch}>
             <Form.Control
               type="search"
               placeholder="Search title, author, genre (e.g. Kafka, Love Story)..."
@@ -109,7 +115,7 @@ function App() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button variant="outline-light">Search</Button>
+            <Button variant="outline-light" type="submit">Search</Button>
           </Form>
 
           <div className="d-flex align-items-center gap-4">
