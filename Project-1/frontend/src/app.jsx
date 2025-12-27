@@ -13,21 +13,20 @@ import AuthModal from './AuthModal.jsx';
 function Home({ searchQuery }) {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        let res;
-        if (searchQuery.trim() === '') {
-          res = await axios.get('https://bookstore-blrf.onrender.com/api/books');
-        } else {
-          res = await axios.get(`https://bookstore-blrf.onrender.com/api/books/search?q=${searchQuery}`);
+        let url = 'https://bookstore-blrf.onrender.com/api/books';
+        if (searchQuery.trim() !== '') {
+          url = `https://bookstore-blrf.onrender.com/api/books/search?q=${encodeURIComponent(searchQuery)}`;
         }
+        const res = await axios.get(url);
         setBooks(res.data);
       } catch (err) {
-        console.error(err);
+        console.error('Error fetching books:', err);
         setBooks([]);
       }
       setLoading(false);
@@ -37,6 +36,7 @@ function Home({ searchQuery }) {
 
   return (
     <>
+      {/* Hero */}
       <div className="bg-dark text-white py-5 text-center">
         <Container>
           <h1 className="display-4 fw-bold">Indian Bookstore</h1>
@@ -45,19 +45,20 @@ function Home({ searchQuery }) {
       </div>
 
       <Container className="my-5">
-        <h2 className="text-center mb-5">
+        {/* Search Results Title with Count */}
+        <h2 className="text-center mb-5 fw-bold">
           {searchQuery 
             ? `Results for "${searchQuery}" (${books.length} books found)`
             : `All Books (${books.length} books)`
           }
         </h2>
 
-        {loading && <p className="text-center">Searching...</p>}
-
-        {!loading && books.length === 0 ? (
+        {loading ? (
+          <p className="text-center">Loading books...</p>
+        ) : books.length === 0 ? (
           <div className="text-center my-5 py-5">
-            <h3>No books found for "{searchQuery}"</h3>
-            <p className="text-muted">Try "Kafka", "Dostoevsky", "Love Story", or "Romance"</p>
+            <h3>No books found</h3>
+            <p className="text-muted">Try "Kafka", "Dostoevsky", "Love Story", "Romance", or "Metamorphosis"</p>
           </div>
         ) : (
           <Row xs={1} md={2} lg={3} xl={4} className="g-4">
@@ -65,7 +66,11 @@ function Home({ searchQuery }) {
               <Col key={book._id}>
                 <Card className="h-100 shadow hover-shadow">
                   <div className="text-center p-4 bg-light">
-                    <Card.Img src={book.image} style={{ height: '320px', objectFit: 'contain' }} />
+                    <Card.Img 
+                      src={book.image} 
+                      alt={book.title}
+                      style={{ height: '320px', objectFit: 'contain' }} 
+                    />
                   </div>
                   <Card.Body className="d-flex flex-column">
                     <Card.Title className="fw-bold">{book.title}</Card.Title>
@@ -102,12 +107,12 @@ function App() {
   const { cartCount, wishlist } = useCart();
   const { user, logout } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
-  const [searchInput, setSearchInput] = useState('');   // What user types
-  const [searchQuery, setSearchQuery] = useState('');   // What is sent to backend (only on button click)
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchQuery(searchInput.trim());  // Trigger search only when button clicked
+    setSearchQuery(searchInput.trim()); // Only trigger search when button clicked
   };
 
   return (
@@ -185,4 +190,3 @@ function App() {
 }
 
 export default App;
-
