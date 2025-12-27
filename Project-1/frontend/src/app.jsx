@@ -10,31 +10,29 @@ import BookDetail from './BookDetail.jsx';
 import AdminPanel from './AdminPanel.jsx';
 import AuthModal from './AuthModal.jsx';
 
-function Home() {
+function Home({ searchQuery }) {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [books, setBooks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
 
-  // Live search - fetches as you type
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchQuery.trim() === '') {
-        axios.get('https://bookstore-blrf.onrender.com/api/books')
-          .then(res => setBooks(res.data))
-          .catch(err => console.error(err));
-      } else {
-        axios.get(`https://bookstore-blrf.onrender.com/api/books/search?q=${searchQuery}`)
-          .then(res => setBooks(res.data))
-          .catch(err => console.error(err));
+    const fetchBooks = async () => {
+      try {
+        if (searchQuery.trim() === '') {
+          const res = await axios.get('https://bookstore-blrf.onrender.com/api/books');
+          setBooks(res.data);
+        } else {
+          const res = await axios.get(`https://bookstore-blrf.onrender.com/api/books/search?q=${searchQuery}`);
+          setBooks(res.data);
+        }
+      } catch (err) {
+        console.error(err);
       }
-    }, 500); // Wait 500ms after typing stops
-
-    return () => clearTimeout(timer);
+    };
+    fetchBooks();
   }, [searchQuery]);
 
   return (
     <>
-      {/* Hero */}
       <div className="bg-dark text-white py-5 text-center">
         <Container>
           <h1 className="display-4 fw-bold">Indian Bookstore</h1>
@@ -42,17 +40,15 @@ function Home() {
         </Container>
       </div>
 
-      {/* Search Results Title */}
       <Container className="my-5">
         <h2 className="text-center mb-5">
-          {searchQuery ? `Search Results for "${searchQuery}"` : 'All Books'} ({books.length})
+          {searchQuery ? `Results for "${searchQuery}"` : 'All Books'} ({books.length})
         </h2>
 
-        {/* No Results Message */}
         {books.length === 0 ? (
           <div className="text-center my-5 py-5">
             <h3>No books found</h3>
-            <p className="text-muted">Try searching "Kafka", "Dostoevsky", "Love Story", or "Romance"</p>
+            <p className="text-muted">Try "Kafka", "Metamorphosis", "Love Story", or "Romance"</p>
           </div>
         ) : (
           <Row xs={1} md={2} lg={3} xl={4} className="g-4">
@@ -101,12 +97,10 @@ function App() {
 
   return (
     <>
-      {/* Navbar with Big Search Bar */}
       <Navbar bg="dark" variant="dark" sticky="top" className="shadow py-3">
         <Container>
           <Link to="/" className="navbar-brand fw-bold fs-4">📚 Indian Bookstore</Link>
 
-          {/* Improved Search Bar */}
           <Form className="d-flex mx-auto flex-grow-1" style={{ maxWidth: '600px' }} onSubmit={(e) => e.preventDefault()}>
             <Form.Control
               type="search"
@@ -118,7 +112,6 @@ function App() {
             <Button variant="outline-light">Search</Button>
           </Form>
 
-          {/* Icons & Login */}
           <div className="d-flex align-items-center gap-4">
             <Link to="/wishlist" className="text-white position-relative">
               <svg width="30" height="30" fill={wishlist.length > 0 ? "#ff4444" : "white"} viewBox="0 0 16 16">
@@ -177,4 +170,3 @@ function App() {
 }
 
 export default App;
-
