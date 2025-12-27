@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Navbar, Container, Row, Col, Card, Button, Badge, Form } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -13,23 +13,27 @@ import AuthModal from './AuthModal.jsx';
 function Home({ searchQuery }) {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBooks = async () => {
+      setLoading(true);
       try {
+        let res;
         if (searchQuery.trim() === '') {
-          const res = await axios.get('https://bookstore-blrf.onrender.com/api/books');
-          setBooks(res.data);
+          res = await axios.get('https://bookstore-blrf.onrender.com/api/books');
         } else {
-          const res = await axios.get(`https://bookstore-blrf.onrender.com/api/books/search?q=${searchQuery}`);
-          setBooks(res.data);
+          res = await axios.get(`https://bookstore-blrf.onrender.com/api/books/search?q=${searchQuery}`);
         }
+        setBooks(res.data);
       } catch (err) {
         console.error(err);
+        setBooks([]);
       }
+      setLoading(false);
     };
     fetchBooks();
-  }, [searchQuery]); // Only runs when searchQuery changes (on button click)
+  }, [searchQuery]);
 
   return (
     <>
@@ -42,13 +46,18 @@ function Home({ searchQuery }) {
 
       <Container className="my-5">
         <h2 className="text-center mb-5">
-          {searchQuery ? `Results for "${searchQuery}"` : 'All Books'} ({books.length})
+          {searchQuery 
+            ? `Results for "${searchQuery}" (${books.length} books found)`
+            : `All Books (${books.length} books)`
+          }
         </h2>
 
-        {books.length === 0 ? (
+        {loading && <p className="text-center">Searching...</p>}
+
+        {!loading && books.length === 0 ? (
           <div className="text-center my-5 py-5">
-            <h3>No books found</h3>
-            <p className="text-muted">Try "Kafka", "Metamorphosis", "Love Story", or "Romance"</p>
+            <h3>No books found for "{searchQuery}"</h3>
+            <p className="text-muted">Try "Kafka", "Dostoevsky", "Love Story", or "Romance"</p>
           </div>
         ) : (
           <Row xs={1} md={2} lg={3} xl={4} className="g-4">
@@ -93,12 +102,12 @@ function App() {
   const { cartCount, wishlist } = useCart();
   const { user, logout } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('');   // What user types
+  const [searchQuery, setSearchQuery] = useState('');   // What is sent to backend (only on button click)
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Search only when button clicked or Enter pressed
-    // The useEffect in Home will trigger
+    setSearchQuery(searchInput.trim());  // Trigger search only when button clicked
   };
 
   return (
@@ -112,8 +121,8 @@ function App() {
               type="search"
               placeholder="Search title, author, genre (e.g. Kafka, Love Story)..."
               className="me-2"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
             <Button variant="outline-light" type="submit">Search</Button>
           </Form>
@@ -176,4 +185,3 @@ function App() {
 }
 
 export default App;
-
