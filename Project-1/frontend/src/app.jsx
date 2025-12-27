@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navbar, Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
+import { Navbar, Container, Row, Col, Card, Button, Badge, Form } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useCart } from './CartContext.jsx';
 import { useAuth } from './AuthContext.jsx';
@@ -177,3 +177,4 @@ function App() {
 }
 
 export default App;
+
