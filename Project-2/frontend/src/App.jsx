@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Navbar, Nav, Badge } from 'react-bootstrap';
 import { useCart } from './CartContext.jsx';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import CartPage from './CartPage.jsx';
 
-function App() {
+function Home() {
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState('All');
   const { addToCart, cartCount } = useCart();
 
   useEffect(() => {
@@ -14,18 +16,31 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
+  const categories = ['All', 'Footwear', 'Electronics', 'Laptops', 'Wearables', 'Clothing'];
+
+  const filteredProducts = category === 'All' 
+    ? products 
+    : products.filter(p => p.category === category);
+
   return (
     <>
       <Navbar bg="dark" variant="dark" sticky="top" className="mb-4">
         <Container>
           <Navbar.Brand as={Link} to="/">🛒 Shopez</Navbar.Brand>
-          <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/cart" className="position-relative">
+          <Nav className="me-auto">
+            {categories.map(cat => (
+              <Nav.Link key={cat} onClick={() => setCategory(cat)} active={category === cat}>
+                {cat}
+              </Nav.Link>
+            ))}
+          </Nav>
+          <Nav>
+            <Nav.Link as={Link} to="/cart" className="position-relative text-white">
               Cart 🛍️
               {cartCount > 0 && (
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
                   {cartCount}
-                </span>
+                </Badge>
               )}
             </Nav.Link>
           </Nav>
@@ -35,7 +50,7 @@ function App() {
       <Container className="my-5">
         <h1 className="text-center mb-5">Welcome to Shopez</h1>
         <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-          {products.map(product => (
+          {filteredProducts.map(product => (
             <Col key={product._id}>
               <Card className="h-100 shadow hover-shadow">
                 <Card.Img variant="top" src={product.image} style={{ height: '300px', objectFit: 'contain', padding: '20px' }} />
@@ -55,6 +70,17 @@ function App() {
         </Row>
       </Container>
     </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Routes>
+    </Router>
   );
 }
 
