@@ -11,6 +11,7 @@ function AdminPanel() {
   const [formData, setFormData] = useState({
     name: '', price: '', image: '', category: '', description: '', stock: 10
   });
+  const API_URL = 'https://backend-8gua.onrender.com';
 
   useEffect(() => {
     fetchProducts();
@@ -18,7 +19,7 @@ function AdminPanel() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('/api/products');
+      const res = await axios.get(`${API_URL}/api/products`)
       setProducts(res.data);
     } catch (err) {
       console.error(err);
@@ -29,10 +30,10 @@ function AdminPanel() {
     e.preventDefault();
     try {
       if (editingProduct) {
-        await axios.put(`/api/products/${editingProduct._id}`, formData);
-      } else {
-        await axios.post('/api/products', formData);
-      }
+  await axios.put(`${API_URL}/api/products/${editingProduct._id}`, formData);
+} else {
+  await axios.post(`${API_URL}/api/products`, formData);
+}
       handleClose();
       fetchProducts();
     } catch (err) {
@@ -56,7 +57,7 @@ function AdminPanel() {
   const handleDelete = async (id) => {
     if (window.confirm('Delete this product?')) {
       try {
-        await axios.delete(`/api/products/${id}`);
+        await axios.delete(`${API_URL}/api/products/${id}`);
         fetchProducts();
       } catch (err) {
         alert('Error deleting');
