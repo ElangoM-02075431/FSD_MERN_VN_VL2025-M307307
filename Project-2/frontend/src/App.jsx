@@ -10,6 +10,8 @@ import AuthModal from './components/AuthModal.jsx';
 import CartPage from './CartPage.jsx';
 import AdminPanel from './AdminPanel.jsx';
 
+const API_URL = 'https://backend-8gua.onrender.com';
+
 function Home() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('All');
@@ -19,9 +21,9 @@ function Home() {
   const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
-    axios.get('/api/products')
+    axios.get(`${API_URL}/api/products`)
       .then(res => setProducts(res.data))
-      .catch(err => console.log(err));
+      .catch(err => console.log('Error loading products:', err));
   }, []);
 
   const categories = ['All', 'Footwear', 'Electronics', 'Laptops', 'Wearables', 'Clothing'];
@@ -35,7 +37,6 @@ function Home() {
 
   return (
     <>
-      {/* Navbar */}
       <Navbar bg="dark" variant="dark" sticky="top" className="mb-4 py-3">
         <Container>
           <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">🛒 Shopez</Navbar.Brand>
@@ -49,8 +50,8 @@ function Home() {
             />
           </Form>
 
-          <Nav className="align-items-center">
-            <Nav.Link as={Link} to="/cart" className="position-relative text-white me-4">
+          <Nav className="align-items-center gap-3">
+            <Nav.Link as={Link} to="/cart" className="position-relative text-white">
               Cart 🛍️
               {cartCount > 0 && (
                 <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
@@ -59,10 +60,16 @@ function Home() {
               )}
             </Nav.Link>
 
+            {user && user.email === 'admin@example.com' && (
+              <Nav.Link as={Link} to="/admin" className="text-white">
+                Admin Panel
+              </Nav.Link>
+            )}
+
             {user ? (
-              <div className="text-white d-flex align-items-center">
+              <div className="text-white d-flex align-items-center gap-2">
                 Hello, {user.name || user.email}!
-                <Button variant="outline-light" size="sm" className="ms-3" onClick={logout}>
+                <Button variant="outline-light" size="sm" onClick={logout}>
                   Logout
                 </Button>
               </div>
@@ -75,7 +82,6 @@ function Home() {
         </Container>
       </Navbar>
 
-      {/* Categories */}
       <Container>
         <Nav className="justify-content-center mb-5 gap-3 flex-wrap">
           {categories.map(cat => (
@@ -89,7 +95,6 @@ function Home() {
           ))}
         </Nav>
 
-        {/* Products */}
         <Row xs={1} md={2} lg={3} xl={4} className="g-4">
           {filteredProducts.length === 0 ? (
             <Col className="text-center my-5 col-12">
