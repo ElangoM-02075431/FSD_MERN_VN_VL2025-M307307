@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const CartContext = createContext();
 
@@ -8,53 +8,44 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find(item => item._id === product._id);
-      if (existingItem) {
-        return prevCart.map(item =>
+    setCart((prev) => {
+      const existing = prev.find(item => item._id === product._id);
+      if (existing) {
+        return prev.map(item =>
           item._id === product._id 
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter(item => item._id !== id));
-  };
-
   const decreaseQuantity = (id) => {
-    setCart((prevCart) => {
-      const item = prevCart.find(item => item._id === id);
+    setCart((prev) => {
+      const item = prev.find(i => i._id === id);
       if (item.quantity === 1) {
-        return prevCart.filter(item => item._id !== id);
+        return prev.filter(i => i._id !== id);
       }
-      return prevCart.map(item =>
-        item._id === id ? { ...item, quantity: item.quantity - 1 } : item
+      return prev.map(i =>
+        i._id === id ? { ...i, quantity: i.quantity - 1 } : i
       );
     });
   };
 
-  const clearCart = () => setCart([]);
+  const removeFromCart = (id) => {
+    setCart((prev) => prev.filter(i => i._id !== id));
+  };
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  // Debug: Log when cart changes
-  useEffect(() => {
-    console.log('Cart updated:', cart);
-    console.log('Cart count:', cartCount);
-  }, [cart]);
 
   return (
     <CartContext.Provider value={{ 
       cart, 
       addToCart, 
-      removeFromCart, 
       decreaseQuantity, 
-      clearCart, 
+      removeFromCart, 
       cartCount, 
       cartTotal 
     }}>
@@ -62,3 +53,5 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+export default CartProvider;
