@@ -3,13 +3,12 @@ import axios from 'axios';
 import { 
   Container, Row, Col, Card, Button, Navbar, Nav, Form, Badge 
 } from 'react-bootstrap';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { useCart } from './CartContext.jsx';
 import { useAuth } from './AuthContext.jsx';
 import AuthModal from './components/AuthModal.jsx';
 import CartPage from './CartPage.jsx';
 import AdminPanel from './AdminPanel.jsx';
-
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -36,6 +35,7 @@ function Home() {
 
   return (
     <>
+      {/* Navbar */}
       <Navbar bg="dark" variant="dark" sticky="top" className="mb-4 py-3">
         <Container>
           <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">🛒 Shopez</Navbar.Brand>
@@ -44,7 +44,6 @@ function Home() {
             <Form.Control
               type="search"
               placeholder="Search products..."
-              className="me-2"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -61,12 +60,12 @@ function Home() {
             </Nav.Link>
 
             {user ? (
-              <Nav.Link className="text-white d-flex align-items-center">
+              <div className="text-white d-flex align-items-center">
                 Hello, {user.name || user.email}!
                 <Button variant="outline-light" size="sm" className="ms-3" onClick={logout}>
                   Logout
                 </Button>
-              </Nav.Link>
+              </div>
             ) : (
               <Button variant="outline-light" onClick={() => setShowAuth(true)}>
                 Login / Register
@@ -76,6 +75,7 @@ function Home() {
         </Container>
       </Navbar>
 
+      {/* Categories */}
       <Container>
         <Nav className="justify-content-center mb-5 gap-3 flex-wrap">
           {categories.map(cat => (
@@ -89,9 +89,10 @@ function Home() {
           ))}
         </Nav>
 
+        {/* Products */}
         <Row xs={1} md={2} lg={3} xl={4} className="g-4">
           {filteredProducts.length === 0 ? (
-            <Col className="text-center my-5">
+            <Col className="text-center my-5 col-12">
               <h3>No products found</h3>
               <p className="text-muted">Try different keywords or category</p>
             </Col>
@@ -136,13 +137,11 @@ function Home() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/admin" element={<AdminPanel />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/admin" element={<AdminPanel />} />
+    </Routes>
   );
 }
 
