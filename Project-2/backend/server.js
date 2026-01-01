@@ -11,7 +11,7 @@ const productRoutes = require('./routes/productRoutes');
 app.use('/api/products', productRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://root:root@bookstoremern-stack.1oyln4z.mongodb.net/')
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
