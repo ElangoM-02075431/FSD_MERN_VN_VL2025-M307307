@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Button, Modal, Form, Table } from 'react-bootstrap';
 import { useAuth } from './AuthContext.jsx';
 
+const API_URL = 'https://backend-8gua.onrender.com';
+
 function AdminPanel() {
   const { user } = useAuth();
   const [products, setProducts] = useState([]);
@@ -11,7 +13,6 @@ function AdminPanel() {
   const [formData, setFormData] = useState({
     name: '', price: '', image: '', category: '', description: '', stock: 10
   });
-  const API_URL = 'https://backend-8gua.onrender.com';
 
   useEffect(() => {
     fetchProducts();
@@ -19,7 +20,7 @@ function AdminPanel() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/products`)
+      const res = await axios.get(`${API_URL}/api/products`);
       setProducts(res.data);
     } catch (err) {
       console.error(err);
@@ -30,14 +31,14 @@ function AdminPanel() {
     e.preventDefault();
     try {
       if (editingProduct) {
-  await axios.put(`${API_URL}/api/products/${editingProduct._id}`, formData);
-} else {
-  await axios.post(`${API_URL}/api/products`, formData);
-}
+        await axios.put(`${API_URL}/api/products/${editingProduct._id}`, formData);
+      } else {
+        await axios.post(`${API_URL}/api/products`, formData);
+      }
       handleClose();
       fetchProducts();
     } catch (err) {
-      alert('Error saving product');
+      alert('Error: ' + err.message);
     }
   };
 
@@ -55,7 +56,7 @@ function AdminPanel() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this product?')) {
+    if (window.confirm('Delete this product permanently?')) {
       try {
         await axios.delete(`${API_URL}/api/products/${id}`);
         fetchProducts();
@@ -77,9 +78,9 @@ function AdminPanel() {
 
   return (
     <Container className="my-5">
-      <div className="d-flex justify-content-between mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Admin Panel – Manage Products ({products.length})</h1>
-        <Button variant="success" onClick={() => setShowModal(true)}>Add Product</Button>
+        <Button variant="success" onClick={() => setShowModal(true)}>Add New Product</Button>
       </div>
 
       <Table striped bordered hover responsive>
