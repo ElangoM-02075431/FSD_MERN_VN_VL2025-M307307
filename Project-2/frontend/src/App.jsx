@@ -8,6 +8,7 @@ import CartPage from './CartPage.jsx';
 function Home() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const { addToCart, cartCount } = useCart();
 
   useEffect(() => {
@@ -18,22 +19,24 @@ function Home() {
 
   const categories = ['All', 'Footwear', 'Electronics', 'Laptops', 'Wearables', 'Clothing'];
 
-  const filteredProducts = category === 'All' 
-    ? products 
-    : products.filter(p => p.category === category);
+  const filteredProducts = products
+    .filter(p => category === 'All' || p.category === category)
+    .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                 p.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <>
       <Navbar bg="dark" variant="dark" sticky="top" className="mb-4">
         <Container>
           <Navbar.Brand as={Link} to="/">🛒 Shopez</Navbar.Brand>
-          <Nav className="me-auto">
-            {categories.map(cat => (
-              <Nav.Link key={cat} onClick={() => setCategory(cat)} active={category === cat}>
-                {cat}
-              </Nav.Link>
-            ))}
-          </Nav>
+          <Form className="d-flex mx-auto" style={{ maxWidth: '500px' }}>
+            <Form.Control
+              type="search"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </Form>
           <Nav>
             <Nav.Link as={Link} to="/cart" className="position-relative text-white">
               Cart 🛍️
@@ -47,26 +50,40 @@ function Home() {
         </Container>
       </Navbar>
 
-      <Container className="my-5">
-        <h1 className="text-center mb-5">Welcome to Shopez</h1>
-        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
-          {filteredProducts.map(product => (
-            <Col key={product._id}>
-              <Card className="h-100 shadow hover-shadow">
-                <Card.Img variant="top" src={product.image} style={{ height: '300px', objectFit: 'contain', padding: '20px' }} />
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Text className="text-muted">{product.category}</Card.Text>
-                  <Card.Text className="mt-auto">
-                    <strong className="text-success fs-4">₹{product.price}</strong>
-                  </Card.Text>
-                  <Button variant="primary" onClick={() => addToCart(product)}>
-                    Add to Cart 🛒
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
+      <Container>
+        <Nav className="justify-content-center mb-4">
+          {categories.map(cat => (
+            <Nav.Link key={cat} onClick={() => setCategory(cat)} active={category === cat} className="mx-2">
+              {cat}
+            </Nav.Link>
           ))}
+        </Nav>
+
+        <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+          {filteredProducts.length === 0 ? (
+            <Col className="text-center my-5">
+              <h3>No products found</h3>
+            </Col>
+          ) : (
+            filteredProducts.map(product => (
+              <Col key={product._id}>
+                <Card className="h-100 shadow hover-shadow">
+                  <Card.Img variant="top" src={product.image} style={{ height: '300px', objectFit: 'contain', padding: '20px' }} />
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title>{product.name}</Card.Title>
+                    <Card.Text className="text-muted">{product.category}</Card.Text>
+                    <Card.Text>{product.description}</Card.Text>
+                    <Card.Text className="mt-auto">
+                      <strong className="text-success fs-4">₹{product.price}</strong>
+                    </Card.Text>
+                    <Button variant="primary" onClick={() => addToCart(product)}>
+                      Add to Cart 🛒
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
         </Row>
       </Container>
     </>
