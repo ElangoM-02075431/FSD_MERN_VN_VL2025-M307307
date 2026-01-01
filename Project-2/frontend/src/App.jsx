@@ -8,6 +8,8 @@ import { useCart } from './CartContext.jsx';
 import { useAuth } from './AuthContext.jsx';
 import AuthModal from './components/AuthModal.jsx';
 import CartPage from './CartPage.jsx';
+import AdminPanel from './AdminPanel.jsx';
+
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -138,6 +140,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </Router>
   );
