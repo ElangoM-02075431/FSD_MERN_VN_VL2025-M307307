@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5001' // Change to Render URL later
+      '/api': 'https://backend-8gua.onrender.com' // Change to Render URL later
     }
   }
 })
