@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
-  Container, Row, Col, Card, Button, Navbar, Nav, Form, Badge 
+  Container, Row, Col, Card, Button, Nav, Form, Badge 
 } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useCart } from './CartContext.jsx';
